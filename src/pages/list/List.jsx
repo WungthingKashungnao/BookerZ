@@ -6,17 +6,32 @@ import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 
 import "./list.css";
-import SearchItem from "../../components/searchItem/SearchItem";
-
+import SearchItem from "../../components/searchItem/SearchItem"; //component for displaying the search item
+import { BACKEND_URL } from "../../config";
+import useFetch from "../../components/hooks/useFetch"; //custom hook for fetchin api data from backend
 
 const List = () => {
-  const location = useLocation();
-  const [destination, setDestination] = useState(location.state.destination);
+  const location = useLocation(); //state responsible for bringin in data from search in home page
+  const [destination, setDestination] = useState(location.state.destination); //state for citites to go
   const [date, setDate] = useState(location.state.date);
-  const [options, setOptions] = useState(location.state.options);
-
+  const [options, setOptions] = useState(location.state.options); //for adult children room state
   const [openDate, setOpenDate] = useState(false); // state to open and close date calender
+  const [min, setMin] = useState(undefined); //state for handling min price of hotel
+  const [max, setMax] = useState(undefined); //state for handling max price of hotel
+  const [newDestination, setNewDestination] = useState(""); //for updating destination state
 
+  const { data, loading, error, reFetch } = useFetch(
+    `${BACKEND_URL}/hotels?city=${destination}&min=${min || 0}&max=${
+      max || 999
+    }`
+  );
+
+  //function to handle Search Click button
+  const handleClick = () => {
+    setDestination(newDestination);
+    reFetch();
+    //we do not need to pass in url here as in the custom hook useFetch we have already passed the url once
+  };
   return (
     <>
       <Navbar />
@@ -31,7 +46,11 @@ const List = () => {
 
             <div className="lsItem">
               <label>Destination</label>
-              <input type="text" placeholder={destination} />
+              <input
+                type="text"
+                onChange={(e) => setNewDestination(e.target.value)}
+                placeholder={destination}
+              />
             </div>
 
             <div className="lsItem">
@@ -57,14 +76,22 @@ const List = () => {
                   <span className="lsOptionText">
                     Min price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input
+                    type="number"
+                    onChange={(e) => setMin(e.target.value)}
+                    className="lsOptionInput"
+                  />
                 </div>
 
                 <div className="lsOptionItem">
                   <span className="lsOptionText">
                     Max price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input
+                    type="number"
+                    onChange={(e) => setMax(e.target.value)}
+                    className="lsOptionInput"
+                  />
                 </div>
 
                 <div className="lsOptionItem">
@@ -98,13 +125,21 @@ const List = () => {
                 </div>
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleClick}>Search</button>
           </div>
           {/* list search end */}
 
           {/* list result start */}
           <div className="listResult">
-            <SearchItem/>
+            {loading ? (
+              "loading ..."
+            ) : (
+              <>
+                {data.hotels?.map((item, idx) => (
+                  <SearchItem item={item} key={item?._id} />
+                ))}
+              </>
+            )}
           </div>
           {/* list result end */}
         </div>

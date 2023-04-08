@@ -1,16 +1,15 @@
 import React from "react";
 import "./feature.css";
 import useFetch from "../hooks/useFetch.js";
-// import { BACKEND_URL } from "../../config";
+import { BACKEND_URL } from "../../config";
 
 const Featured = () => {
-  const { data, loading, error } = useFetch(
-    "http://localhost:8800/api/hotels/countByCity?cities=Brussels,Berlin,Paris,London,Tokyo,Madrid"
-  );
   // const { data, loading, error } = useFetch(
-  //   `${BACKEND_URL}/hotels/countByCity?cities=Brussels,Berlin,Paris,London,Tokyo,Madrid`
+  //   "http://localhost:8800/api/hotels/countByCity?cities=Brussels,Berlin,Paris,London,Tokyo,Madrid"
   // );
-  console.log(data);
+  const { data, loading, error } = useFetch(
+    `${BACKEND_URL}/hotels/countByCity?cities=Brussels,Berlin,Paris,London,Tokyo,Madrid`
+  );
   return (
     // featured start
     <div className="featured">
@@ -26,7 +25,7 @@ const Featured = () => {
             />
             <div className="featuredTitles">
               <h1>Brussels</h1>
-              <h2>{data[0]}</h2>
+              <h2>{data[0]} proerties</h2>
             </div>
           </div>
 
@@ -38,7 +37,7 @@ const Featured = () => {
             />
             <div className="featuredTitles">
               <h1>Berlin</h1>
-              <h2>{data[1]}</h2>
+              <h2>{data[1]} proerties</h2>
             </div>
           </div>
 
@@ -50,7 +49,7 @@ const Featured = () => {
             />
             <div className="featuredTitles">
               <h1>Paris</h1>
-              <h2>{data[2]}</h2>
+              <h2>{data[2]} proerties</h2>
             </div>
           </div>
         </>

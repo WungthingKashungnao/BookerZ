@@ -12,7 +12,6 @@ const useFetch = (url) => {
       try {
         const res = await axios.get(url);
         setData(res.data);
-        console.log("hook->", res);
       } catch (err) {
         setError(err);
       }
@@ -32,7 +31,7 @@ const useFetch = (url) => {
     setLoading(false);
   };
 
-  return { data, error, reFetch };
+  return { data, error, loading, reFetch };
 };
 
 export default useFetch;
