@@ -1,5 +1,6 @@
 //this file is exported to hotel.js file of routes folder
 import Hotel from "../models/Hotel.js"; //importing hotel model
+import Room from "../models/Room.js";
 
 // fucntion to createHotel start
 export const createHotel = async (req, res, next) => {
@@ -128,3 +129,20 @@ export const countByType = async (req, res, next) => {
   }
 };
 // fucntion to get all hotels by Type end
+
+// get hotel rooms after booking start
+export const getHotelRooms = async (req, res, next) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id); //getting the hotel id by the user input passed down from webiste
+    const list = await Promise.all(
+      // in the Hotel modal we have rooms property of type array, which holds the different room id  of that hotel as strings
+      hotel.rooms.map((room) => {
+        return Room.findById(room); //returning the same room which match the same id in both the Hotel modal and Room modal
+      })
+    );
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
+};
+// get hotel rooms after booking end
