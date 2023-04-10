@@ -15,8 +15,8 @@ import { BACKEND_URL } from "../../config";
 import useFetch from "../../components/hooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../authContext/AuthContext";
 import Reserve from "../../components/reserve/Reserve";
+import { AuthContext } from "../../authContext/AuthContext";
 // import { useLocation } from "react-router-dom"; //hook for getting path
 
 // component for hotel page

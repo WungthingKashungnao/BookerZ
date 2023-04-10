@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import "./login.css";
-import { AuthContext } from "../../authContext/AuthContext";
+
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../authContext/AuthContext";
 
 const Login = () => {
   //state to send credentials by user to backend
